@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+######## KTLINT-GRADLE HOOK START ########
+
+cd $(git rev-parse --show-toplevel)
+
+CHANGED_FILES="$(git --no-pager diff --name-status --staged --no-color --cached | awk '$1 != "D" && $2 ~ /\.kts|\.kt/ { print $2}')"
+
+if [ -z "$CHANGED_FILES" ]; then
+    echo "No K staged files."
+    exit 0
+fi;
+
+echo "Running ktlint over these files:"
+echo "$CHANGED_FILES"
+
+./gradlew --quiet ktlintFormat -PinternalKtlintGitFilter="$CHANGED_FILES"
+
+echo "Completed ktlint run."
+
+echo "$CHANGED_FILES" | while read -r file; do
+    if [ -f $file ]; then
+        git add $file
+    fi
+done
+
+echo "Completed ktlint hook."
