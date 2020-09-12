@@ -83,5 +83,4 @@ interface BoardInterface {
    *
    */
   fun completeMove()
-
 }
