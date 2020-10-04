@@ -1,19 +1,87 @@
 package org.dwoc.khet.gameControl.interfaces
 
-import org.dwoc.khet.gameControl.Piece
+import androidx.lifecycle.LiveData
+import org.dwoc.khet.models.Position
+import org.dwoc.khet.models.enums.Player
+import org.dwoc.khet.models.pieces.Piece
 
-public interface BoardInterface {
+interface BoardInterface {
+  /**
+   * The positions the selected piece can move to (to be highlighted by the UI)
+   */
+  val highlightPositions: LiveData<List<Position>>
 
-  //to get the piece selected by the user
-  fun getPiece(PosX: Int,PosY: Int)
+  /**
+   * The selected piece
+   */
+  val selectedPiece: LiveData<Piece?>
 
-  //to get and highlight the available positions of the selected piece
-  fun getAvailablePositions(list: List<Int>)
+  /**
+   *   Path traversed by the laser
+   */
+  val laserPath: LiveData<List<Position>>
 
-  //gets triggered when user shoots the laser
-  fun ShootLaser(Player: Int,Orientation: Int)
+  val currentPlayer: LiveData<Player>
 
-  //to get the status of the selected piece
-  fun getState(List: Array<Piece>)
+  /**
+   *   Get the piece selected by the user
+   *
+   * @param position to search
+   * @return Piece
+   */
+  fun getPiece(position: Position): Piece?
+
+  /**
+   * general function to be called when user clicks on the board
+   *
+   * @param position
+   */
+  fun onClick(position: Position)
+
+  /**
+   * Select a piece
+   *
+   * @param position
+   */
+  fun selectPiece(position: Position)
+
+  /**
+   * reset selection to null (to be used after the move or cancel the move)
+   *
+   */
+  fun resetSelection()
+
+  /**
+   * rotate a piece
+   *
+   * @param amount
+   */
+  fun rotatePiece(amount: Int)
+
+  /**
+   * gets triggered when user shoots the laser
+   *
+   * @param player
+   */
+  fun shootLaser(player: Player)
+
+  /**
+   * reset the laser path
+   *
+   */
+  fun resetLaser()
+
+  /**
+   * Get the list of pieces
+   *
+   * @return
+   */
+  fun getState(): List<Piece>
+
+  /**
+   * Indicate that move is complete
+   *
+   */
+  fun completeMove()
 
 }

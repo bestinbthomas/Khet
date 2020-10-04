@@ -1,32 +1,34 @@
-package org.dwoc.khet.gameControl
+package org.dwoc.khet.models.pieces
 
+import org.dwoc.khet.models.Position
 import org.dwoc.khet.models.enums.Direction
 import org.dwoc.khet.models.enums.Player
+import org.dwoc.khet.models.enums.Type
 
 /**
  * Each Types of Piece will Extend this Piece Class
  */
-abstract class Piece(val PlayerId : Player, var PosX : Int, var PosY : Int, var Orientation : Direction)
-{
+abstract class Piece(
+  val type: Type,
+  val PlayerId: Player,
+  var position: Position,
+  var Orientation: Direction
+) {
 
   /**
    * MovePiece will set the PosX and PosY of the Piece
-   * @param PosX The X-Coordinate of the Position to move
-   * @param PosY The Y-Coordinate of the Position to move
+   * @param position final position of the piece
    */
-  fun MovePiece (PosX : Int,PosY : Int)
-  {
-    this.PosX = PosX
-    this.PosY = PosY
+  fun movePiece(position: Position) {
+    this.position = position
   }
 
   /**
    * RotatePiece will Rotate the Piece's Orientation by the Said amount
    * @param amount the amount to rotate will take values between -3 to 3
    */
-  fun RotatePiece (amount : Int)
-  {
-     var value: Int = amount + Orientation.ordinal + 4
+  fun rotatePiece(amount: Int) {
+    var value: Int = amount + Orientation.ordinal + 4
     value %= 4
     Orientation = Direction.values()[value]
   }
@@ -37,7 +39,9 @@ abstract class Piece(val PlayerId : Player, var PosX : Int, var PosY : Int, var 
    * @param rayDirection the Direction of the Incident ray with respect to the Board
    * @return a Pair of Boolean (Hit on Object) and Direction (null if the ray is hit)
    */
-  abstract fun attackFrom(rayDirection : Direction) : Pair<Boolean , Direction?>
+  abstract fun attackFrom(rayDirection: Direction): Pair<Boolean, Direction?>
+
+  abstract val canReplace: Boolean
 
 }
 
