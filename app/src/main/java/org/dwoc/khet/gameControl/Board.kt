@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import org.dwoc.khet.gameControl.interfaces.BoardInterface
 import org.dwoc.khet.models.Position
 import org.dwoc.khet.models.enums.Player
+import org.dwoc.khet.models.pieces.Piece
 
 class Board : BoardInterface {
   private val moves: Array<Position> = arrayOf(
@@ -36,7 +37,7 @@ class Board : BoardInterface {
     get() = mutableCurrentPlayer
 
   init {
-      mutableCurrentPlayer.value = Player.PLAYER1
+    mutableCurrentPlayer.value = Player.PLAYER1
   }
 
   override fun getPiece(position: Position) =
@@ -45,7 +46,7 @@ class Board : BoardInterface {
     }
 
   override fun onClick(position: Position) {
-    if(selectedPiece.value != null && highlightPositions.value?.contains(position) == true) {
+    if (selectedPiece.value != null && highlightPositions.value?.contains(position) == true) {
       selectedPiece.value!!.movePiece(position)
       resetSelection()
       completeMove()
@@ -66,7 +67,7 @@ class Board : BoardInterface {
   }
 
   override fun rotatePiece(amount: Int) {
-    selectedPiece.value?: return
+    selectedPiece.value ?: return
     selectedPiece.value!!.rotatePiece(amount)
   }
 
@@ -87,13 +88,13 @@ class Board : BoardInterface {
   }
 
   private fun updateHighlightedPositions(piece: Piece?) {
-    if(piece == null) {
+    if (piece == null) {
       mutableHighlightPositions.value = listOf()
       return
     }
     mutableHighlightPositions.value = moves.filter {
       val newPos = piece.position + it
       newPos.checkLimits() && (piece.canReplace || getPiece(newPos) == null)
-    }.map {it+piece.position}
+    }.map { it + piece.position }
   }
 }

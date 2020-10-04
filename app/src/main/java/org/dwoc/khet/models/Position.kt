@@ -1,10 +1,12 @@
 package org.dwoc.khet.models
 
-import org.dwoc.khet.GRID_SIZE
+import org.dwoc.khet.GRID_HEIGHT
+import org.dwoc.khet.GRID_WIDTH
 
-data class Position (var x: Int, var y: Int) {
+
+data class Position(var x: Int, var y: Int) {
   override fun equals(other: Any?): Boolean {
-    if(other !is Position || other == null) return false
+    if (other !is Position || other == null) return false
     return this.x == other.x && this.y == other.y
   }
 
@@ -17,8 +19,12 @@ data class Position (var x: Int, var y: Int) {
 
 
   operator fun plus(other: Position): Position =
-    Position(this.x+other.x,this.y+other.y)
+    Position(this.x + other.x, this.y + other.y)
 
   fun checkLimits(): Boolean =
-    x in 0..GRID_SIZE && y in 0..GRID_SIZE
+    x in 0..GRID_WIDTH && y in 0..GRID_HEIGHT
+
+  override fun hashCode(): Int {
+    return x * 10 + y
+  }
 }
