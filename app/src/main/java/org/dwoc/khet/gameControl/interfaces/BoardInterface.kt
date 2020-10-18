@@ -15,7 +15,7 @@ interface BoardInterface {
    * The selected piece
    */
   val selectedPiece: LiveData<Piece?>
-  
+
   /**
    *   Path traversed by the laser
    */
