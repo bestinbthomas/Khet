@@ -12,3 +12,5 @@ run `git config core.hooksPath .githooks` once after cloning the repo
 
 ## Contributing
 See [here](CONTRIBUTING.md) for details on how to contribute to this project.
+
+check out our [Wiki](https://github.com/bestinbthomas/Khet/wiki) for more information
